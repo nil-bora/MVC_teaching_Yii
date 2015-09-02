@@ -144,7 +144,7 @@ class AdminController extends Controller {
 	        	$question_type_radio = preg_replace("/(\d)/", "", 'question_type_radio'.$k);
 	        	$question_type_checkbox = preg_replace("/(\d)/", "", 'question_type_checkbox'.$k);
 	        	
-
+	
 	        	if($question == 'question')
 	        		$questions_data[$k]['question'] = $v['question'.$k][0];
 	        	
@@ -177,55 +177,54 @@ class AdminController extends Controller {
 			        	$questions_data[$k]['answers'] = $v['answer'.$k];
 	        	}
 	        	
-        	
-        	}
-        	
-        	$questions_data = array_values($questions_data);
-        	
-        	$questions_json = json_encode($questions_data);
-        	
-        	$page->question = $questions_json;
-        	
-        	/*Help informations*/
-        	$help = $_POST['Help'];
-        	$help_data = array();
-        	if(isset($help['name'])) {
+		
+		}
+		
+		$questions_data = array_values($questions_data);
+		
+		$questions_json = json_encode($questions_data);
+		
+		$page->question = $questions_json;
+		
+		/*Help informations*/
+		$help = $_POST['Help'];
+		$help_data = array();
+		if(isset($help['name'])) {
 	        	foreach($help['name'] as $key=>$item) {
 		        	if(isset($help['text'][$key])) {
 			        	$help_data[$key]['name'] = $item;
 			        	$help_data[$key]['text'] = htmlspecialchars(addslashes($help['text'][$key]));
 		        	}
 	        	}
-
+	
 	        	
 	        	$help_data = array_values($help_data);
 	        	$help_json = json_encode($help_data);
 	        	
 	        	$page->help = $help_json;
-        	}
-        	/*Help informations*/
-        	
-        	$page->name = $_POST['Teaching']['name'];
-        	$page->date_start = $_POST['Teaching']['date_start'];
-        	$page->date_end = $_POST['Teaching']['date_end'];
-        	$page->duration = $_POST['Teaching']['duration'];
-        	$page->visibility = $_POST['Teaching']['visibility'];
-        	$page->many = $_POST['Teaching']['many'];
-        	
-        	$page->space_id = $_POST['BasicSettingsForm']['defaultSpaceGuid'];
-
-        	$page->description = $_POST['description'];
+		}
+		/*Help informations*/
+		
+		$page->name = $_POST['Teaching']['name'];
+		$page->date_start = $_POST['Teaching']['date_start'];
+		$page->date_end = $_POST['Teaching']['date_end'];
+		$page->duration = $_POST['Teaching']['duration'];
+		$page->visibility = $_POST['Teaching']['visibility'];
+		$page->many = $_POST['Teaching']['many'];
+		
+		$page->space_id = $_POST['BasicSettingsForm']['defaultSpaceGuid'];
+	
+		$page->description = $_POST['description'];
             //$page->attributes = $_POST['Teaching'];
            
-            //if ($page->validate()) {
+            if ($page->validate()) {
                 if($page->save())
                 	$this->redirect(Yii::app()->createUrl('//teaching/admin'));
                 else {
 	                echo "<pre>";
 					print_r($page->getErrors());
                 }
-             //   $this->redirect(Yii::app()->createUrl('//pages/admin'));
-           // }
+            }
             
         }
 
